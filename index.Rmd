@@ -1,0 +1,212 @@
+---
+title: Estadística
+subtitle: "Actividad 1 - Iniciando con R"
+author: "Jorge Isaac Dominguez Perez"
+date: "6 de Septiembre de 2023"
+output: 
+    prettydoc::html_pretty:
+      theme: leonids
+      highlight: vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Descripción
+
+La siguiente tarea tiene como objetivo reforzar los conceptos de programación en lenguaje `R` que se discutieron en las sesiones pasadas. 
+
+### Vectores atómicos
+
+En `R`, los vectores atómicos se pueden generar mediante diversos comandos, e.g., `x <- c("a","char","nuevo")` representa un vector de carácteres. Basado en lo anterior cree vectores con las siguientes características:
+
++ Un vector que represente $\{2^i\}_{i=1}^{20}$
+
+```{r}
+i <- seq(1, 20)
+
+vector_resultante <- 2 ^ i
+
+print(vector_resultante)
+```
++ Un vector que represente $\{2n+1\}_{n=4}^{13}$
+```{r}
+
+mi_vector <- seq(from = 2 * 4 + 1, to = 2 * 13 + 1, by = 2)
+
+mi_vector
+
+```
+
+
++ Un vector que represente $\{2n+1\}_{n=4}^{13} \cap \{2^i\}_{i=1}^{20}$
+```{r}
+seq1 <- seq(2*4+1, 2*13+1, by=2)
+
+
+seq2 <- 2^(1:20)
+
+interseccion <- intersect(seq1, seq2)
+
+print(interseccion)
+
+```
+
++ Un vector que represente $\{\sin(2*\pi t)\}_{t=1}^5$
+```{r}
+t_values <- 1:5
+sin_values <- sapply(t_values, function(t) sin(2 * pi * t))
+
+print(sin_values)
+
+```
+
++ Un vector de $10$ números aleatorios con distribución uniforme (apóyese del comando `runif()`).
+```{r}
+
+random_vector <- runif(10)
+
+print(random_vector)
+
+```
+
++ Un vector con las primeras 15 letras del abecedario en mayúsculas.
+```{r}
+
+letras <- c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
+
+print(letras)
+
+```
+
+
+Supóngamos ahora que se intentan generar los siguientes vectores atómicos:
+
+
+```{r, echo=T}
+x1 <- c("1","2",2+3i,5+41)
+x2 <- log(c(T,T,T,T,F))
+x3 <- !(c(1,3,4,12,12.1,99,100))
+x4 <- c(1,2,3)<"a"
+x5 <- 1:10
+```
+
+?De qué tipo es cada una de ellas? Liste el tipo de cada una de ellas.
+```{r}
+# Tipos de datos de los vectores
+# x1 es una lista
+# x2 es numérico
+# x3 es lógico (booleano)
+# x4 es lógico (booleano)
+# x5 es numérico
+
+# Mostrar los tipos de datos
+class(x1)
+class(x2)
+class(x3)
+class(x4)
+class(x5)
+
+```
+
+
+### Matrices
+
+En el siguiente ejercicio se crearán las siguientes matrices:
+ 
++ Una matriz de $2\times3$ con carácteres (de cualquier tipo).
+```{r}
+#crear una matriz de 2x3
+matriz_ejemplo1 <- matrix(1:6, nrow = 2, ncol = 3)
+
+#mostrar la matriz
+print(matriz_ejemplo1)
+```
+
++ Una matriz de $4\times4$ cuyos elementos son sólo la letra `"a"`.
+```{r}
+matriz_letra <- matrix("a", nrow = 4, ncol = 4)
+
+print(matriz_letra)
+```
+
++ Una matriz de $5\times5$ cuyos elementos son las letras minúsculas.
+```{r}
+matriz_minus <- matrix("a,b,c,d", nrow = 5, ncol = 5)
+
+print(matriz_minus)
+```
+
++ Una matriz de $2\times2$ cuyos elementos son valores complejos.
+```{r}
+# Crear una matriz 2x2 con elementos complejos
+matriz_compleja <- matrix(c(2 + 3i, 4 - 1i, 1 - 2i, 5 + 2i), nrow = 2, ncol = 2)
+
+# Mostrar la matriz
+print(matriz_compleja)
+
+```
+
+
+Una matriz se puede generar igual mediante otros dos comandos ?Cuáles son?
+Son los comandos **array()** y **cbind()**
+
+
+### Listas 
+
+Una lista es una generalización tanto de un vector atómico como de un `data.frame`. Los elementos de un vector atómico pueden ser de cualquier tipo. Supongamos que tenemos un lista dada por
+
+```{r, eval=FALSE}
+x <- list(1,"a",2+3i,T,F,1L)
+```
+
+- ?Qué sucede si a la lista `x` le aplico `dim(x) <- c(2,3)`? Si aplicas dim(x) <- c(2, 3) a la lista x en R, obtendrás un error porque las listas en R no tienen dimensiones (como las matrices o los data frames). La función dim() se utiliza para configurar o consultar las dimensiones de matrices o arreglos multidimensionales, no para listas.
+
+- ?Cómo podrá llamar a ese nuevo objeto? El nombre de la lista es **x** puede ser llamado por el nombre que le hayas dado en la asignacion.
+
+- ?Qué sucede si `c(list("a"), 2+3i)`? ?De qué tipo es el resultado?
+ 
+ 
+### Gráficos
+
+El comando `plot` me permite graficar dos vectores de igual longtitud. El comando `par(mfrow=c(2,2))` divide el espacio de graficación en dos filas y dos columnas con lo cual yo graficar 4 gráficos sobre la misma figura. 
+Por otro lado el comando `write(path)` permite escribir un archivo en la dirección dada por `path`, por ejemplo:
+
+```{r eval=FALSE}
+x <-rnorm(20)   # Variables aleatorias con media 0 y sd 1
+
+x <- seq(5,10, length=1000)
+y <- cos(2*pi*x)
+par(mfrow=c(2,2))
+plot(x,y, type="l", col="blue")
+plot(x,y1, type="l", col="red")
+plot(x,y, type="l", COL= "green")
+plot(x,y, type="l", col="orange")
+#write(x,"archivo.txt", "\n")
+```
+Crea un archivo llamado `archivo.txt` en el directorio de trabajo. De igual forma `R` permite graficar en otro **dispositivo**. Por ejemplo, podemos graficar en un+}  dispositivo PDF y después guardar el archivo en el directorio de trabajo mediante el siguiente comando:
+
+```{r eval=FALSE}
+for(i in 1:40){
+  x <- runif(200, 2,5)
+  pdf(paste("jorgeisaac_",i,".pdf",sep=""))
+  
+  plot(seq(0,1, length = length(x)), x , type = "l", col="red")
+  dev.off()
+  
+  write(x, paste("archivo_",i,".txt", sep=""), sep="\n")
+  
+  
+
+}
+```
+
+Con base en lo anterior se requiere que el estudiante genere 40 archivos llamados con valores aleatorios del tipo uniforme (creados mediante `runif()`) y cree los archivos `txt` y `pdf` que contienen sus valores y sus gráficos. 
+
+El trabajo se tiene que entregar el miércoles 13 de Septiembre.
+
+## Referencias adicionales
+
+- Puede consultar cualquier libro de R.
+- Se puede consultar las presentaciones previas.
